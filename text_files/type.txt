@@ -1,0 +1,11 @@
+sneakers
+trainers
+runners
+walkers
+lifters
+platforms
+sandals
+slipons
+laceless
+hightop
+lowtop
