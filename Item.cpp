@@ -19,7 +19,16 @@ Item::~Item()
 
 int Item::copy_item(const Item& copy_from)
 {
-  return 0;
+  // Don't copy an item that contains nullptrs. 
+  if (copy_from.get_name() == nullptr || 
+      copy_from.get_type() == nullptr ||
+      copy_from.get_description() == nullptr)
+    return 0;
+
+
+
+
+  return 1;
 }
 
 
@@ -44,4 +53,19 @@ int Item::retrieve(char * name_to_match, Item& found_item)
 int Item::retrieve(Item& found_item)
 {
   return 0;
+}
+
+char * Item::get_name()
+{
+  return name;
+}
+
+char * Item::get_type()
+{
+  return type;
+}
+
+char * Item::get_description()
+{
+  return description;
 }
