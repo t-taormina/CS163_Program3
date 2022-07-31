@@ -19,8 +19,8 @@ class Item
     ~Item();
     // p_ -> this is meant to indicate that it is the parameter item 
     Item(char * p_name, char * p_type, int p_year, char * p_description, int p_worth);
-    int copy_item(const Item& copy_from);
-    int create_item(char * name, char * type, int year, char * description, int worth);
+    int copy_item(Item& copy_from);
+    int set_item(char * name, char * type, int year, char * description, int worth);
     int display(void);
 
     int retrieve(char * name_to_match, Item& found_item); 

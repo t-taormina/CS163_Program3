@@ -20,12 +20,10 @@ Item::~Item()
 }
 
 // Will overwrite the data of the item being used to call the function.
-int Item::copy_item(const Item& copy_from)
+int Item::copy_item(Item& copy_from)
 {
   // Don't copy an item that contains nullptrs. 
-  if (copy_from.get_name() == nullptr || 
-      copy_from.get_type() == nullptr ||
-      copy_from.get_description() == nullptr)
+  if (copy_from.get_name() == nullptr || copy_from.get_type() == nullptr || copy_from.get_description() == nullptr)
     return 0;
 
   // If the item being copied to is already holding data, delete, allocate, and set.
@@ -49,7 +47,7 @@ int Item::copy_item(const Item& copy_from)
 }
 
 
-int Item::create_item(char * arg_name, char * arg_type, int arg_year, char * arg_description, int arg_worth)
+int Item::set_item(char * arg_name, char * arg_type, int arg_year, char * arg_description, int arg_worth)
 {
   // Do not set values for an item that has already been established.
   if (name != nullptr || 
@@ -74,13 +72,38 @@ int Item::create_item(char * arg_name, char * arg_type, int arg_year, char * arg
 
 int Item::display(void)
 {
-  return 0;
+  // Do not display items with nullptrs stored in members.
+  if (name == nullptr || type == nullptr || description == nullptr)
+    return 0;
+  std::cout << "Name: " << name << std::endl;
+  std::cout << "Type: " << type << std::endl;
+  std::cout << "Year: " << year << std::endl;
+  std::cout << "Description: " << description << std::endl;
+  std::cout << "Worth: " << worth << std::endl;
+  return 1;
 }
 
 
 int Item::retrieve(char * name_to_match, Item& found_item)
 {
-  return 0;
+  if (name_to_match == nullptr)
+    return 0;
+
+  int success = 1;
+  if (strcmp(name_to_match, name) == 0)
+  {
+    if (found_item.get_name() != nullptr ||
+        found_item.get_type() != nullptr ||
+      found_item.get_description() != nullptr)
+    success = 0;
+    else
+    {
+      success  = found_item.set_item(name, type, year, description, worth);
+    }
+    return success;
+  }
+  else
+    return 0;
 }
 
 

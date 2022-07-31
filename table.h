@@ -21,8 +21,6 @@ class Table
   public:
     Table(int size);
     ~Table(void);
-
-    int hash_function(char * key);
     
     int insert(char * key_value, const Item & to_add);
     int retrieve(char * name_to_find, Item * found);
@@ -40,6 +38,7 @@ class Table
   private:
     node ** hash_table;
     int  table_size;
+    int hash_function(char * key);
 
 };
 
