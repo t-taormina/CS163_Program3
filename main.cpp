@@ -2,7 +2,7 @@
 // June, 2022
 // Program 2- Stack and queues at the Fair
 
-// GITHUB : FILLMEIN
+// GITHUB : https://github.com/till-t/CS163_Program3.git
 //
 // things to do:
 //     - 
