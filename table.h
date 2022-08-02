@@ -31,7 +31,6 @@ class Table
 
 
     int remove_matched_name(char * name_to_remove); // Iterative function
-    int retrieved_match(char * name_to_match, Item& found_item); // Iterative function
     
   // ===============================================================================================
   

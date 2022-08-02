@@ -190,11 +190,21 @@ int read_to_data_structure(Table & table)
     char* year = new char[SIZE];
     char* description = new char[SIZE];
     char* worth = new char[SIZE];
+    int year_int = 0;
+    int worth_int = 0;
+    int check = 0;
 
-    inFile << std::cin.get(name, SIZE, '|') << std::cin.get(type, SIZE, '|') << std::cin.get(year, SIZE, '|') << std::cin.get(description, SIZE, '|') << std::cin.get(worth, SIZE, '\n');
+    std::cin.get(name, SIZE, '|');
+    std::cin.get(type, SIZE, '|');  
+    std::cin.get(year, SIZE, '|');
+    std::cin.get(description, SIZE, '|');
+    std::cin.get(worth, SIZE, '\n');
+
+    check = convert_character_array_to_int(year, year_int);
+    check = convert_character_array_to_int(worth, worth_int);
 
     Item item;
-    item.set_item(name, type, year, description, worth);
+    item.set_item(name, type, year_int, description, worth_int);
     table.insert(item.get_name(), item);
 
     delete [] name;

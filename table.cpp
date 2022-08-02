@@ -71,7 +71,7 @@ int Table::retrieve(char * name_to_find, Item & found)
   node * temp = (*(hash_table + index));
   while (temp && success)
   {
-    success = temp->item.retrieve(name_to_find, found);
+    success = temp->item.retrieve_match(name_to_find, found);
     temp = temp->next;
   }
 
@@ -85,10 +85,10 @@ int Table::display_all(void)
   int success = 0;
   for (int i = 0; i < table_size; i++)
   {
-    if (*(hash_table + index) != nullptr)
+    if (*(hash_table + i) != nullptr)
     {
       success = 1;
-      node * temp = (*(hash_table + index));
+      node * temp = (*(hash_table + i));
       while (temp)
       {
         temp->item.display();
@@ -117,8 +117,6 @@ int Table::remove_matched_name(char * name_to_remove)
   return 0;
 }
 
-
-int Table::retrieved_match(char * name_to_match, Item& found_item){} // Iterative function
 
 
 // PRIVATE FUNCTIONS
