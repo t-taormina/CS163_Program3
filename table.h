@@ -22,8 +22,8 @@ class Table
     Table(int size);
     ~Table(void);
     
-    int insert(char * key_value, const Item & to_add);
-    int retrieve(char * name_to_find, Item * found);
+    int insert(char * key_value, Item & to_add);
+    int retrieve(char * name_to_find, Item & found);
 
     int display_all(void); // for testing
     int display_all_type(char * type);

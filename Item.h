@@ -23,7 +23,7 @@ class Item
     int set_item(char * name, char * type, int year, char * description, int worth);
     int display(void);
 
-    int retrieve(char * name_to_match, Item& found_item); 
+    int retrieve_match(char * name_to_match, Item& found_item); 
     int retrieve(Item& found_item); 
     char * get_name();
     char * get_type();

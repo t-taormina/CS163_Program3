@@ -2,7 +2,7 @@
 
 Table::Table(int size)
 {
-  hash_table = new node * [SIZE];
+  hash_table = new node * [size];
   table_size = size;
   node ** ptr = hash_table;
   for (int i = 0; i < table_size; i++)
@@ -32,13 +32,13 @@ Table::~Table(void)
 }
 
     
-int Table::insert(char * key_value, const Item & to_add)
+int Table::insert(char * key_value, Item & to_add)
 {
   // Do not compute hash functino if the key value argument is set to nullptr.
   if (key_value == nullptr)
     return 0;
   int success;
-  int index = hash_functin(key_value);
+  int index = hash_function(key_value);
   if (*(hash_table + index) == nullptr) // Empty index in array.
   {
     *(hash_table + index) = new node;
@@ -49,14 +49,14 @@ int Table::insert(char * key_value, const Item & to_add)
     node * temp = ( *(hash_table + index) );
     *(hash_table + index) = new node;
     success = (*(hash_table + index))->item.copy_item(to_add);
-    *(hash_table + index)->next = temp;
+    (*(hash_table + index))->next = temp;
   }
   return success;
 }
 
 
 
-int Table::retrieve(char * name_to_find, Item * found)
+int Table::retrieve(char * name_to_find, Item & found)
 {
   if (name_to_find == nullptr)
     return 0;
@@ -137,6 +137,5 @@ int Table::hash_function(char * key)
       hash += int(key[i]) * 7;
   }
 
-  return hash % hash_table_size;
+  return hash % table_size;
 }
-

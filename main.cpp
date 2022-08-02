@@ -1,6 +1,6 @@
 // Tyler Taormina CS163
 // June, 2022
-// Program 2- Stack and queues at the Fair
+// Program 3- Stack and queues at the Fair
 
 // GITHUB : https://github.com/till-t/CS163_Program3.git
 //
@@ -12,14 +12,15 @@
 // Test for item class
 // - 
 
-#include "Item.h"
+#include "table.h"
 #include <iostream>
+#include <fstream>
 
 int displayMenu();
 int validate_menu_choice();
-void processChoice (int& flag, int menu_choice);
+void processChoice (int& flag, int menu_choice, Table & table);
 int get_input(char* & arg_value);
-void make_event(Item& arg_item);
+int read_to_data_structure(Table & table);
 int convert_character_array_to_int(char * arr, int & num);
 int convert_yes_no(char * arr, int & num);
 
@@ -28,6 +29,7 @@ const int SIZE = 100;
 
 int main()
 {
+  Table table(20);
 
   int flag = 1;
   
@@ -35,7 +37,7 @@ int main()
     {
       displayMenu();
       int menu_choice_int = validate_menu_choice();
-      processChoice(flag, menu_choice_int, stack, queue);
+      processChoice(flag, menu_choice_int, table);
     }
   return 0;
 }
@@ -50,11 +52,11 @@ int displayMenu() {
 
     std::cout << "STACK OPERATIONS\n";
     std::cout << "===============================\n";
-    std::cout << "1) Check event\n";
-    std::cout << "2) \n";
+    std::cout << "1) Read events\n";
+    std::cout << "2) Display all\n";
     std::cout << "3) \n";
     std::cout << "4) \n";
-    std::cout << endl;
+    std::cout << std::endl;
     std::cout << "QUEUE OPERATIONS\n";
     std::cout << "===============================\n";
     std::cout << "5) \n";
@@ -83,7 +85,7 @@ int validate_menu_choice()
     delete [] menu_choice;
     menu_choice_int = 0;
     menu_choice = new char[SIZE];
-    cout << "Only numbers are accepted." << endl << "Please enter a valid number: ";
+    std::cout << "Only numbers are accepted." << std::endl << "Please enter a valid number: ";
     get_input(menu_choice);
     check = convert_character_array_to_int(menu_choice, menu_choice_int);
     if (menu_choice_int > 8 || menu_choice_int < 0) 
@@ -96,22 +98,24 @@ int validate_menu_choice()
 
 
 // Provides option processing for the menu 
-void processChoice (int& flag, int menu_choice, Stack & stack, Queue & queue)
+void processChoice (int& flag, int menu_choice, Table & table)
 {
   // Takes in user input for menu choice and calls the appropriate function.
   int no = 0;
   int proceed = 1;
   switch(menu_choice)
     {
-      // STACK OPERATIONS
+      // read file into events and output
       case 1:
         { 
+          read_to_data_structure(table);
           break;
-
         }
 
+      // display table 
       case 2: 
         {
+          table.display_all();
           break;
         }
 
@@ -125,7 +129,6 @@ void processChoice (int& flag, int menu_choice, Stack & stack, Queue & queue)
          break;
         }
 
-      // QUEUE OPERATIONS
       case 5: 
         {
          break;
@@ -167,28 +170,46 @@ void processChoice (int& flag, int menu_choice, Stack & stack, Queue & queue)
 }
 
 
-void make_event(Item& item)
+int read_to_data_structure(Table & table)
 {
   // All local variables that will be used to gather input
-  char* name = new char[SIZE];
-  char* type = new char[SIZE];
-  char* year = new char[SIZE];
-  char* description = new char[SIZE];
-  char* worth = new char[SIZE];
+  
   int year = 0;
   int worth = 0;
 
-  // Gather input from the user
-  std::cout << "Please enter the name of the item: ";
-  get_input(name);
-  std::cout << "Please the type of the item: ";
-  get_input(description);
-  std::cout << "The year the item was made: ";
-  get_input(year);
+
+  std::ifstream inFile;
+  inFile.open("data_short.txt");
+  if (!inFile.is_open())
+    return 0;
+
+  while (inFile.peek() != EOF)
+  {
+    char* name = new char[SIZE];
+    char* type = new char[SIZE];
+    char* year = new char[SIZE];
+    char* description = new char[SIZE];
+    char* worth = new char[SIZE];
+
+    inFile << std::cin.get(name, SIZE, '|') << std::cin.get(type, SIZE, '|') << std::cin.get(year, SIZE, '|') << std::cin.get(description, SIZE, '|') << std::cin.get(worth, SIZE, '\n');
+
+    Item item;
+    item.set_item(name, type, year, description, worth);
+    table.insert(item.get_name(), item);
+
+    delete [] name;
+    delete [] type;
+    delete [] year;
+    delete [] description;
+    delete [] worth;  
+  }
+  inFile.close();
+  return 1;
+}
+
+  /*
 
   // Character array conversion to integers begins here
-  std::cout << "Please enter your rating of the event: ";
-  get_input(rating);
   int check = convert_character_array_to_int(rating, rating_int);
   while(!check)
   {
@@ -200,8 +221,6 @@ void make_event(Item& item)
     check = convert_character_array_to_int(rating, rating_int);
   }
 
-  std::cout << "Would you do this event again? (y/n): ";
-  get_input(repeatable);
   check = convert_yes_no(repeatable, repeatable_int);
   while(!check)
   {
@@ -214,12 +233,9 @@ void make_event(Item& item)
   }
 
   event.set_event(name, description, review, rating_int, repeatable_int);
-  delete [] name;
-  delete [] description;
-  delete [] review;
-  delete [] rating;
-  delete [] repeatable;
-}
+  */
+  
+
 
 
 // Converts character array to integer 

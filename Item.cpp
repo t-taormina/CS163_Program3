@@ -84,7 +84,7 @@ int Item::display(void)
 }
 
 
-int Item::retrieve(char * name_to_match, Item& found_item)
+int Item::retrieve_match(char * name_to_match, Item& found_item)
 {
   if (name_to_match == nullptr)
     return 0;
@@ -92,13 +92,11 @@ int Item::retrieve(char * name_to_match, Item& found_item)
   int success = 1;
   if (strcmp(name_to_match, name) == 0)
   {
-    if (found_item.get_name() != nullptr ||
-        found_item.get_type() != nullptr ||
-      found_item.get_description() != nullptr)
-    success = 0;
+    if (found_item.get_name() != nullptr ||found_item.get_type() != nullptr || found_item.get_description() != nullptr)
+      success = 0;
     else
     {
-      success  = found_item.set_item(name, type, year, description, worth);
+      success  = retrieve(found_item);
     }
     return success;
   }
@@ -109,7 +107,16 @@ int Item::retrieve(char * name_to_match, Item& found_item)
 
 int Item::retrieve(Item& found_item)
 {
-  return 0;
+   // Verify no null values being passed
+  if (found_item.get_name() != nullptr || found_item.get_type() != nullptr || found_item.get_description() != nullptr)
+     return 0;
+ 
+    // Verify no data already stored in event
+  if (name == nullptr || type == nullptr || description== nullptr)
+     return 0;
+
+  int success = found_item.set_item(name, type, year, description, worth);
+  return success;
 }
 
 
