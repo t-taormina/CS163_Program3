@@ -4,6 +4,8 @@ Table::Table(int size)
 {
   hash_table = new node * [size];
   table_size = size;
+  col_ct = 0;
+  item_ct = 0;
   for (int i = 0; i < table_size; i++)
     *(hash_table + i) = nullptr;
 }
@@ -41,14 +43,16 @@ int Table::insert(char * key_value, Item & to_add)
     (*(hash_table + index)) = new node;
     (*(hash_table + index))->next = nullptr;
     success = (*(hash_table + index))->item.copy_item(to_add);
+    item_ct++;
   }
   else
   {
-    col_ct++;
     node * temp = ( *(hash_table + index) );
     (*(hash_table + index)) = new node;
     success = (*(hash_table + index))->item.copy_item(to_add);
     (*(hash_table + index))->next = temp;
+    item_ct++;
+    col_ct++;
   }
   return success;
 }
@@ -158,9 +162,13 @@ int Table::hash_function(char * key)
   for (int i = 0; i < key_length; i++)
   {
     if (int(key[i]) % 2 == 0 )
-      hash += int(key[i]) * 3;
+    {
+      int num = int(key[i]) * 13 * 2;
+      hash += (num * num);
+    }
+      
     else
-      hash += int(key[i]) * 7;
+      hash += int(key[i]) * 7 * 33;
   }
 
   return hash % table_size;
@@ -221,3 +229,9 @@ int Table::collisions()
   return 0;
 }
 
+
+int Table::items()
+{
+  cout << "Items: " << item_ct <<  endl;
+  return 0;
+}

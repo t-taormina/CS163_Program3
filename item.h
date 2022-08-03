@@ -17,6 +17,7 @@ using namespace std;
 // Utility functions in main.cpp
 const int SIZE = 100;
 const char file_name[] = "data.txt";
+const int HASH_SIZE = 30;
 
 
 class Item 

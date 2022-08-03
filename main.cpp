@@ -17,7 +17,7 @@
 
 int main()
 {
-  Table table(20);
+  Table table(HASH_SIZE);
 
   int flag = 1;
   
@@ -94,6 +94,7 @@ void processChoice (int& flag, int menu_choice, Table & table)
         { 
           table.read_file();
           table.collisions();
+          table.items();
           break;
         }
 

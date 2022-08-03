@@ -41,6 +41,7 @@ class Table
     int display_name(char * match_name); 
     int read_file();
     int collisions();
+    int items();
 
     int remove_matched_name(char * name_to_remove); // Iterative function
     
@@ -50,7 +51,8 @@ class Table
     node ** hash_table;
     int  table_size;
     int hash_function(char * key);
-    int col_ct = 0;
+    int col_ct;
+    int item_ct;
 
 };
 
