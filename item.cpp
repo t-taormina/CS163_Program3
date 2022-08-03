@@ -2,7 +2,9 @@
 // taormina@pdx.edu
 // Program 3 CS163
 // July 2022
-#include "Item.h"
+
+
+#include "item.h"
 
 
 Item::Item() : name(nullptr), type(nullptr), year(0), description(nullptr), worth(0) {}
@@ -80,6 +82,34 @@ int Item::display(void)
 {
   // Do not display items with nullptrs stored in members.
   if (name == nullptr || type == nullptr || description == nullptr)
+    return 0;
+  std::cout << "Name: " << name << std::endl;
+  std::cout << "Type: " << type << std::endl;
+  std::cout << "Year: " << year << std::endl;
+  std::cout << "Description: " << description << std::endl;
+  std::cout << "Worth: " << worth << std::endl;
+  return 1;
+}
+
+
+int Item::display_type_match(char * match)
+{
+  // Do not display items with nullptrs stored in members.
+  if (name == nullptr || type == nullptr || description == nullptr || strcmp(match,type) != 0)
+    return 0;
+  std::cout << "Name: " << name << std::endl;
+  std::cout << "Type: " << type << std::endl;
+  std::cout << "Year: " << year << std::endl;
+  std::cout << "Description: " << description << std::endl;
+  std::cout << "Worth: " << worth << std::endl;
+  return 1;
+}
+
+
+int Item::display_name_match(char * match)
+{
+  // Do not display items with nullptrs stored in members.
+  if (name == nullptr || type == nullptr || description == nullptr || strcmp(match,name) != 0)
     return 0;
   std::cout << "Name: " << name << std::endl;
   std::cout << "Type: " << type << std::endl;

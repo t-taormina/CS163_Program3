@@ -39,13 +39,13 @@ int displayMenu() {
     std::cout << "==================================================================\n";
 
     std::cout << "===============================\n";
-    std::cout << "1) Read events\n";
-    std::cout << "2) Display all\n";
-    std::cout << "3) \n";
-    std::cout << "4) \n";
-    std::cout << "5) \n";
-    std::cout << "6) \n";
-    std::cout << "7) \n";
+    std::cout << "1) Read items from file\n";
+    std::cout << "2) Display all items in table \n";
+    std::cout << "3) Display match by name\n";
+    std::cout << "4) Display all match by type\n";
+    std::cout << "5) Remove by name\n";
+    std::cout << "6) Retrieve match by name\n";
+    std::cout << "7) Add a collectable\n";
     std::cout << "8) \n";
     std::cout << std::endl;
     std::cout << "0) Exit Program\n";
@@ -93,6 +93,7 @@ void processChoice (int& flag, int menu_choice, Table & table)
       case 1:
         { 
           table.read_file();
+          table.collisions();
           break;
         }
 
@@ -105,12 +106,22 @@ void processChoice (int& flag, int menu_choice, Table & table)
 
       case 3:
         {
-          break;
+          char * match = new char[SIZE];
+          cout << "Please enter the name of shoe to display: ";
+          get_input(match);
+          table.display_name(match);
+          delete [] match;
+          break;         
         }
 
       case 4: 
         {
-         break;
+          char * match = new char[SIZE];
+          cout << "Please enter the type of shoe to display: ";
+          get_input(match);
+          table.display_type(match);
+          delete [] match;
+          break;
         }
 
       case 5: 

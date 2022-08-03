@@ -44,7 +44,7 @@ int Table::insert(char * key_value, Item & to_add)
   }
   else
   {
-    std::cout << "collision!" << std::endl;
+    col_ct++;
     node * temp = ( *(hash_table + index) );
     (*(hash_table + index)) = new node;
     success = (*(hash_table + index))->item.copy_item(to_add);
@@ -99,14 +99,43 @@ int Table::display_all(void)
 } 
                                
 
-int Table::display_all_type(char * type)
+int Table::display_type(char * match_type)
 {
-  return 0;
+  for (int i = 0; i < table_size; i++)
+  {
+    if ( (*(hash_table + i)) != nullptr)
+    {
+      node * head = (*(hash_table + i));
+      node * temp;
+      while (head)
+      {
+        temp = head->next;
+        head->item.display_type_match(match_type);
+        head = temp;
+      }
+    }
+  }
+
+  return 1;
 }
 
 
-int Table::display_matched_name(char * name_to_match)
+int Table::display_name(char * match_name)
 {
+  for (int i = 0; i < table_size; i++)
+  {
+    if ( (*(hash_table + i)) != nullptr)
+    {
+      node * head = (*(hash_table + i));
+      node * temp;
+      while (head)
+      {
+        temp = head->next;
+        head->item.display_name_match(match_name);
+        head = temp;
+      }
+    }
+  }
   return 0;
 }
 
@@ -183,5 +212,12 @@ int Table::read_file()
   }
   inFile.close();
   return 1;
+}
+
+
+int Table::collisions()
+{
+  cout << "Collisions: " << col_ct <<  endl;
+  return 0;
 }
 

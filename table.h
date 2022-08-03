@@ -3,7 +3,7 @@
 // July 2022
 // Program 3
 
-#include "Item.h"
+#include "item.h"
 
 int displayMenu();
 int validate_menu_choice();
@@ -11,7 +11,7 @@ void processChoice (int& flag, int menu_choice, class Table & table);
 int get_input(char* & arg_value);
 int convert_character_array_to_int(char * arr, int & num);
 int convert_yes_no(char * arr, int & num);
-
+// ===============================================================================================
 
 
 struct node 
@@ -25,6 +25,7 @@ struct node
 // - How to call the functions(args, return types)
 // - Aimed at the application programmer
 
+
 class Table 
 {
 
@@ -36,9 +37,10 @@ class Table
     int retrieve(char * name_to_find, Item & found);
 
     int display_all(void); // for testing
-    int display_all_type(char * type);
-    int display_matched_name(char * name_to_match); 
+    int display_type(char * match_type);
+    int display_name(char * match_name); 
     int read_file();
+    int collisions();
 
     int remove_matched_name(char * name_to_remove); // Iterative function
     
@@ -48,6 +50,7 @@ class Table
     node ** hash_table;
     int  table_size;
     int hash_function(char * key);
+    int col_ct = 0;
 
 };
 
