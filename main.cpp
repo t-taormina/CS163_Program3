@@ -11,20 +11,8 @@
 // ===================================================================================================
 // Test for item class
 // - 
-
+ 
 #include "table.h"
-#include <iostream>
-#include <fstream>
-
-int displayMenu();
-int validate_menu_choice();
-void processChoice (int& flag, int menu_choice, Table & table);
-int get_input(char* & arg_value);
-int read_to_data_structure(Table & table);
-int convert_character_array_to_int(char * arr, int & num);
-int convert_yes_no(char * arr, int & num);
-
-const int SIZE = 100;
 
 
 int main()
@@ -50,15 +38,11 @@ int displayMenu() {
     std::cout << "                         MENU" << std::endl;
     std::cout << "==================================================================\n";
 
-    std::cout << "STACK OPERATIONS\n";
     std::cout << "===============================\n";
     std::cout << "1) Read events\n";
     std::cout << "2) Display all\n";
     std::cout << "3) \n";
     std::cout << "4) \n";
-    std::cout << std::endl;
-    std::cout << "QUEUE OPERATIONS\n";
-    std::cout << "===============================\n";
     std::cout << "5) \n";
     std::cout << "6) \n";
     std::cout << "7) \n";
@@ -108,7 +92,7 @@ void processChoice (int& flag, int menu_choice, Table & table)
       // read file into events and output
       case 1:
         { 
-          read_to_data_structure(table);
+          table.read_file();
           break;
         }
 
@@ -170,52 +154,7 @@ void processChoice (int& flag, int menu_choice, Table & table)
 }
 
 
-int read_to_data_structure(Table & table)
-{
-  // All local variables that will be used to gather input
-  
-  int year = 0;
-  int worth = 0;
 
-
-  std::ifstream inFile;
-  inFile.open("data_short.txt");
-  if (!inFile.is_open())
-    return 0;
-
-  while (inFile.peek() != EOF)
-  {
-    char* name = new char[SIZE];
-    char* type = new char[SIZE];
-    char* year = new char[SIZE];
-    char* description = new char[SIZE];
-    char* worth = new char[SIZE];
-    int year_int = 0;
-    int worth_int = 0;
-    int check = 0;
-
-    std::cin.get(name, SIZE, '|');
-    std::cin.get(type, SIZE, '|');  
-    std::cin.get(year, SIZE, '|');
-    std::cin.get(description, SIZE, '|');
-    std::cin.get(worth, SIZE, '\n');
-
-    check = convert_character_array_to_int(year, year_int);
-    check = convert_character_array_to_int(worth, worth_int);
-
-    Item item;
-    item.set_item(name, type, year_int, description, worth_int);
-    table.insert(item.get_name(), item);
-
-    delete [] name;
-    delete [] type;
-    delete [] year;
-    delete [] description;
-    delete [] worth;  
-  }
-  inFile.close();
-  return 1;
-}
 
   /*
 

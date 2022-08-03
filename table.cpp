@@ -4,9 +4,8 @@ Table::Table(int size)
 {
   hash_table = new node * [size];
   table_size = size;
-  node ** ptr = hash_table;
   for (int i = 0; i < table_size; i++)
-    *(ptr + i) = nullptr;
+    *(hash_table + i) = nullptr;
 }
 
 
@@ -15,7 +14,7 @@ Table::~Table(void)
   node ** ptr = hash_table;
   for (int i = 0; i < table_size; i++)
   {
-    if ( *(ptr + i) != nullptr)
+    if ( (*(ptr + i)) != nullptr)
     {
       node * head = (*(ptr + i));
       node * temp = head->next;
@@ -23,9 +22,7 @@ Table::~Table(void)
       {
         temp = head->next;
         delete head;
-        head = nullptr;
         head = temp;
-        temp = temp->next;
       }
     }
   }
@@ -34,20 +31,22 @@ Table::~Table(void)
     
 int Table::insert(char * key_value, Item & to_add)
 {
-  // Do not compute hash functino if the key value argument is set to nullptr.
+  // Do not compute hash function if the key value argument is set to nullptr.
   if (key_value == nullptr)
     return 0;
   int success;
   int index = hash_function(key_value);
   if (*(hash_table + index) == nullptr) // Empty index in array.
   {
-    *(hash_table + index) = new node;
+    (*(hash_table + index)) = new node;
+    (*(hash_table + index))->next = nullptr;
     success = (*(hash_table + index))->item.copy_item(to_add);
   }
   else
   {
+    std::cout << "collision!" << std::endl;
     node * temp = ( *(hash_table + index) );
-    *(hash_table + index) = new node;
+    (*(hash_table + index)) = new node;
     success = (*(hash_table + index))->item.copy_item(to_add);
     (*(hash_table + index))->next = temp;
   }
@@ -137,3 +136,52 @@ int Table::hash_function(char * key)
 
   return hash % table_size;
 }
+
+
+int Table::read_file()
+{
+  // All local variables that will be used to gather input
+
+  ifstream inFile;
+  inFile.open(file_name);
+  if (!inFile.is_open())
+    return 0;
+  char name[SIZE];
+  char type[SIZE];
+  //char year[SIZE];
+  char description[SIZE];
+  //char worth[SIZE];
+
+  int year_int = 0;
+  int worth_int = 0;
+  int check = 0;
+
+
+  inFile.get(name, SIZE, '|');
+  inFile.ignore(SIZE, '|');
+  while (!inFile.eof())
+  {
+    inFile.get(type, SIZE, '|');  
+    inFile.ignore(SIZE, '|');
+    inFile >> year_int;
+    inFile.ignore(SIZE, '|');
+    //std::inFile.get(year, SIZE, '|');
+    inFile.get(description, SIZE, '|');
+    inFile.ignore(SIZE, '|');
+    inFile >> worth_int;
+    inFile.ignore(SIZE, '\n');
+    //std::inFile.get(worth, SIZE, '\n');
+
+    //check = convert_character_array_to_int(year, year_int);
+    //check = convert_character_array_to_int(worth, worth_int);
+
+    Item item;
+    item.set_item(name, type, year_int, description, worth_int);
+    insert(name, item);
+    inFile.get(name, SIZE, '|');
+    inFile.ignore(SIZE, '|');
+  }
+  inFile.close();
+  return 1;
+}
+
