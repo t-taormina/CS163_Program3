@@ -1,4 +1,11 @@
+// Tyler Taormina
+// taormina@pdx.edu
+// August 2022
+// Program 3
+
+
 #include "table.h"
+
 
 Table::Table(int size)
 {

@@ -1,6 +1,6 @@
-// Tyler Taormina CS163
+// Tyler Taormina 
 // taormina@pdx.edu
-// July 2022
+// August 2022
 // Program 3
 
 #include <iostream>

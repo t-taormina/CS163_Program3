@@ -1,6 +1,7 @@
-// Tyler Taormina CS163
-// June, 2022
-// Program 3- Stack and queues at the Fair
+// Tyler Taormina
+// taormina@pdx.edu
+// August 2022
+// Program 3
 
 // GITHUB : https://github.com/till-t/CS163_Program3.git
 //

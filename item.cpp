@@ -1,7 +1,7 @@
 // Tyler Taormina 
 // taormina@pdx.edu
-// Program 3 CS163
-// July 2022
+// August 2022
+// Program 3 
 
 
 #include "item.h"
