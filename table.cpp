@@ -186,45 +186,43 @@ int Table::read_file()
 {
   // All local variables that will be used to gather input
 
-  ifstream inFile;
-  inFile.open(file_name);
+  ifstream inFile(file_name); // file_name is a constant defined in item.h
   if (!inFile.is_open())
     return 0;
-  char name[SIZE];
-  char type[SIZE];
-  //char year[SIZE];
-  char description[SIZE];
-  //char worth[SIZE];
 
-  int year_int = 0;
-  int worth_int = 0;
-  int check = 0;
-
+  int year; int worth; int check;
+  year = worth = check = 0;
+  char * name = new char [SIZE];
 
   inFile.get(name, SIZE, '|');
   inFile.ignore(SIZE, '|');
   while (!inFile.eof())
   {
+    char * type = new char [SIZE];
+    char * description = new char [SIZE];
+
     inFile.get(type, SIZE, '|');  
     inFile.ignore(SIZE, '|');
-    inFile >> year_int;
+    inFile >> year;
     inFile.ignore(SIZE, '|');
-    //std::inFile.get(year, SIZE, '|');
     inFile.get(description, SIZE, '|');
     inFile.ignore(SIZE, '|');
-    inFile >> worth_int;
+    inFile >> worth;
     inFile.ignore(SIZE, '\n');
-    //std::inFile.get(worth, SIZE, '\n');
-
-    //check = convert_character_array_to_int(year, year_int);
-    //check = convert_character_array_to_int(worth, worth_int);
 
     Item item;
-    item.set_item(name, type, year_int, description, worth_int);
+    item.set_item(name, type, year, description, worth);
     insert(name, item);
+
+    delete [] name;
+    delete [] type;
+    delete [] description;
+
+    name = new char [SIZE];
     inFile.get(name, SIZE, '|');
     inFile.ignore(SIZE, '|');
   }
+  delete [] name;
   inFile.close();
   return 1;
 }
