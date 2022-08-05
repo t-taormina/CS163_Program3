@@ -20,19 +20,17 @@ Table::Table(int size)
 
 Table::~Table(void) 
 {
-  node ** ptr = hash_table;
   for (int i = 0; i < table_size; i++)
   {
-    if ( (*(ptr + i)) != nullptr)
-    {
-      node * head = (*(ptr + i));
-      node * temp = head->next;
-      while (head)
-      {
+    if ((*(hash_table + i)) != nullptr) {
+      node * head = (*(hash_table + i));
+      node * temp;
+      while (head) {
         temp = head->next;
         delete head;
         head = temp;
       }
+      head = temp = nullptr;
     }
   }
 }
@@ -66,22 +64,24 @@ int Table::insert(char * key_value, Item & to_add)
 
 
 
-int Table::retrieve(char * name_to_find, Item & found)
+int Table::retrieve(char * name_to_find, Item items[HASH_SIZE])
 {
   if (name_to_find == nullptr)
     return 0;
 
   int index = hash_function(name_to_find);
-  int success;
+  int success = 0;
   
   if (*(hash_table + index) == nullptr)
     return 0; // No nodes in index
 
   // Traverse non-empty index
   node * temp = (*(hash_table + index));
-  while (temp && success)
+  while (temp)
   {
-    success = temp->item.retrieve_match(name_to_find, found);
+    Item found;
+    success+= temp->item.retrieve_match(name_to_find, found);
+    items[success - 1].copy_item(found);
     temp = temp->next;
   }
 
@@ -150,10 +150,41 @@ int Table::display_name(char * match_name)
   return 0;
 }
 
-
+// Deletes all of a certain name and returns the number of 
+// items removed.  
 int Table::remove_matched_name(char * name_to_remove)
 {
-  return 0;
+  int index = hash_function(name_to_remove);
+  int success = 0;
+  if ((*(hash_table + index)) == nullptr)
+    return success;
+  node * head = (*(hash_table + index));
+  node * temp;
+
+  // will remove multiple matches in a row at the head
+  while (head && head->item.is_match(name_to_remove)) {
+    temp = head->next;
+    delete head;
+    head = temp;
+    success++;
+  }
+
+  node * prev = head;
+  node * current = head->next;
+  // After we determine there isn't a match in the head node and we, will check all nodes
+  // left and drag a previous pointer for reconnecting the links if we find a match.
+  while (current) {
+    temp = current->next; // on the last node this will be nullptr by the default constructor
+    if (current->item.is_match(name_to_remove)) {
+        delete current;
+        current = temp;
+        prev->next = current;
+        success++;
+    }
+    prev = current; 
+    current = temp;
+  }
+  return success;
 }
 
 

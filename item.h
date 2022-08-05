@@ -9,15 +9,9 @@
 #include <fstream>
 using namespace std;
 
-// Comments for .h files
-// - Why you would want to use the data type
-// - How to call the functions(args, return types)
-// - Aimed at the application programmer
-
-// Utility functions in main.cpp
 const int SIZE = 100;
 const char file_name[] = "data.txt";
-const int HASH_SIZE = 30;
+const int HASH_SIZE = 50;
 
 
 class Item 
@@ -27,7 +21,6 @@ class Item
     Item();
     ~Item();
     
-    // p_ -> this is meant to indicate that it is the parameter item 
     Item(char * p_name, char * p_type, int p_year, char * p_description, int p_worth);
     int copy_item(Item& copy_from);
     int set_item(char * name, char * type, int year, char * description, int worth);
@@ -37,6 +30,7 @@ class Item
 
     int retrieve_match(char * name_to_match, Item& found_item); 
     int retrieve(Item& found_item); 
+    int is_match(char * name_to_match);
 
   // ===============================================================================================
   private:
@@ -46,5 +40,6 @@ class Item
     char * description; 
     int worth;
 };
+
 
 

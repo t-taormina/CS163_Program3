@@ -5,25 +5,16 @@
 
 #include "item.h"
 
-int displayMenu();
-int validate_menu_choice();
-void processChoice (int& flag, int menu_choice, class Table & table);
-int get_input(char* & arg_value);
-int convert_character_array_to_int(char * arr, int & num);
-int convert_yes_no(char * arr, int & num);
-// ===============================================================================================
-
-
 struct node 
 {
   Item item;
   node * next;
-};
 
-// Comments for .h files
-// - Why you would want to use the data type
-// - How to call the functions(args, return types)
-// - Aimed at the application programmer
+  node(){
+    item = Item();
+    next = nullptr;
+  }
+};
 
 
 class Table 
@@ -34,7 +25,7 @@ class Table
     ~Table(void);
     
     int insert(char * key_value, Item & to_add);
-    int retrieve(char * name_to_find, Item & found);
+    int retrieve(char * name_to_find, Item items[HASH_SIZE]);
 
     int display_all(void); // for testing
     int display_type(char * match_type);

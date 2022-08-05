@@ -25,6 +25,7 @@ Item::~Item()
   year = worth = 0;
 }
 
+
 // Will overwrite the data of the item being used to call the function.
 int Item::copy_item(Item& copy_from)
 {
@@ -75,6 +76,15 @@ int Item::set_item(char * arg_name, char * arg_type, int arg_year, char * arg_de
   year = arg_year;
   worth = arg_worth;
   return 1;
+}
+
+
+int Item::is_match(char * name_to_match)
+{
+  int success = 0;
+  if (strcmp(name_to_match, name) == 0)
+    success = 1;
+  return success;
 }
 
 
