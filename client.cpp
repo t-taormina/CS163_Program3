@@ -6,6 +6,7 @@
 #include "client.h"
 
 
+// Program runner.
 int run() {
   Table table(HASH_SIZE);// hash size variable is constant in item.h
 
@@ -50,7 +51,7 @@ void processChoice (int& flag, int menu_choice, Table & table)
   int proceed = 1;
   switch(menu_choice)
     {
-      // read file into events and output
+      // Read file into events and output.
       case 1:
         { 
           table.read_file();
@@ -59,13 +60,14 @@ void processChoice (int& flag, int menu_choice, Table & table)
           break;
         }
 
-      // display table 
+      // Display full table. 
       case 2: 
         {
           table.display_all();
           break;
         }
 
+      // Display name matches.
       case 3:
         {
           char * match = new char[SIZE];
@@ -76,6 +78,7 @@ void processChoice (int& flag, int menu_choice, Table & table)
           break;         
         }
 
+      // Display type matches.
       case 4: 
         {
           char * match = new char[SIZE];
@@ -86,6 +89,7 @@ void processChoice (int& flag, int menu_choice, Table & table)
           break;
         }
 
+      // Remove name matches.
       case 5: 
         {
           char * match = new char[SIZE];
@@ -97,6 +101,7 @@ void processChoice (int& flag, int menu_choice, Table & table)
           break;
         }
 
+      // Retrieve name matches.
       case 6: 
         {
           Item items[HASH_SIZE];
@@ -111,6 +116,7 @@ void processChoice (int& flag, int menu_choice, Table & table)
           break;
         }
 
+      // Add an item to the table.
       case 7:
         {
           Item item;
@@ -121,6 +127,7 @@ void processChoice (int& flag, int menu_choice, Table & table)
           break;
         }
 
+      // Exit
       case 0:
         {
           std::cout << "Are you sure you want to exit?" << std::endl;
@@ -128,6 +135,7 @@ void processChoice (int& flag, int menu_choice, Table & table)
           break;
         }
 
+      // Prevent undesired outputs from having an effect.
       default:
           break;
     }
@@ -157,6 +165,7 @@ int validate_menu_choice()
 }
 
 
+// Create an item using user input.
 int make_item(char* & key, Item & item) {
   char * name = new char[SIZE];
   char * type = new char[SIZE];
@@ -191,6 +200,7 @@ int make_item(char* & key, Item & item) {
 }
 
 
+// Gets user input from console and stores in character array.
 int get_input(char* & value)
 {
   std::cin.get(value, SIZE, '\n');
